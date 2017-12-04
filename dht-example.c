@@ -24,7 +24,7 @@
 static struct sockaddr_storage bootstrap_nodes[MAX_BOOTSTRAP_NODES];
 static int num_bootstrap_nodes = 0;
 
-static volatile sig_atomic_t dumping = 0, searching = 0, exiting = 0;
+static volatile sig_atomic_t dumping = 1, searching = 0, exiting = 0;
 
 static void
 sigdump(int signo)
@@ -113,7 +113,11 @@ main(int argc, char **argv)
     memset(&sin6, 0, sizeof(sin6));
     sin6.sin6_family = AF_INET6;
 
+    int file_out = fopen("./dht_key.txt", "w");
 
+    if(file_out < 0){
+	    return -1;
+    }
 
     while(1) {
         opt = getopt(argc, argv, "q46b:i:");
@@ -391,8 +395,8 @@ main(int argc, char **argv)
 
         /* For debugging, or idle curiosity. */
         if(dumping) {
-            dht_dump_tables(stdout);
-            dumping = 0;
+            dht_dump_tables(file_out);
+            dumping = 1;
         }
     }
 
