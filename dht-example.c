@@ -333,7 +333,7 @@ main(int argc, char **argv)
         struct timeval tv;
         fd_set readfds;
         tv.tv_sec = tosleep;
-        tv.tv_usec = random() % 1000000;
+        //tv.tv_usec = random() % 1000000;
 
         FD_ZERO(&readfds);
         if(s >= 0)
@@ -377,7 +377,7 @@ main(int argc, char **argv)
                 perror("dht_periodic");
                 if(rc == EINVAL || rc == EFAULT)
                     abort();
-                tosleep = 1;
+                tosleep = 0;
             }
         }
 
